@@ -1,0 +1,79 @@
+body {
+	font-family: "Noto Serif", Georgia, "Times New Roman", Times, serif;
+
+	color: #212529;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	margin: 0;
+}
+
+.card {
+	background: white;
+	padding: 2rem;
+	border-radius: 1rem;
+	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+	text-align: center;
+	width: 100%;
+	max-width: 400px;
+}
+
+h1 {
+	font-size: 1.25rem;
+	font-weight: 600;
+	margin-bottom: 2rem;
+	color: #495057;
+}
+
+.info-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0.75rem 0;
+	border-bottom: 1px solid #eee;
+}
+
+.info-row:last-of-type {
+	border-bottom: none;
+}
+
+.label {
+	color: #6c757d;
+	font-size: 0.875rem;
+}
+
+.value {
+	font-weight: 500;
+	color: #212529;
+}
+
+#res {
+	margin-top: 2rem;
+	font-size: 2rem;
+	font-weight: 800;
+	color: #007bff;
+	letter-spacing: -0.025em;
+}
+
+.badge {
+	display: inline-block;
+	padding: 0.25rem 0.5rem;
+	border-radius: 0.25rem;
+	font-size: 0.75rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	margin-left: 0.5rem;
+}
+
+.badge-odd {
+	background: #e7f1ff;
+	color: #0d6efd;
+	font-size: 1.3rem;
+	padding: 0.5rem 1rem;
+}
+
+.badge-even {
+	background: #fef2f2;
+	color: #dc3545;
+}

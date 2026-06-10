@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Week Parity</title>
+    <link rel="stylesheet" href="static/css/styles.css">
+</head>
+<body>
+    <div class="card">
+        <h1>Week Parity Checker</h1>
+        <div class="info-row">
+            <span class="label">Semester Start</span>
+            <span id="start-val" class="value">...</span>
+        </div>
+        <div class="info-row">
+            <span class="label">Today</span>
+            <span id="current-val" class="value">...</span>
+        </div>
+        <div id="res">Calculating...</div>
+
+
+    <script type="module">
+        import init, { get_week_status_wasm } from './pkg/week_parity_wasm.js';
+        import { CONFIG } from './static/js/config.js';
+
+        async function run() {
+            await init();
+
+            const { baseDate, timezone } = CONFIG;
+
+            const today = new Intl.DateTimeFormat('en-CA', {
+                timeZone: timezone,
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            }).format(new Date());
+
+            document.getElementById('start-val').innerText = baseDate;
+            document.getElementById('current-val').innerText = today;
+
+            const status = get_week_status_wasm(baseDate, today);
+            const [week, parityEng] = status.split(': ');
+            const parityMap = { 'odd': '单周', 'even': '双周' };
+            const parity = parityMap[parityEng.toLowerCase()] || parityEng;
+            const parityBadge = `<span class="badge badge-${parityEng.toLowerCase()}">${parity}</span>`;
+            document.getElementById('res').innerHTML = `${week} ${parityBadge}`;
+        }
+        run().catch(console.error);
+    </script>
+</body>
+</html>
+

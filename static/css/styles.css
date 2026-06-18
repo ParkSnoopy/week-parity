@@ -65,6 +65,43 @@ h1 {
 	color: #212529;
 }
 
+.date-value {
+	position: relative;
+	cursor: pointer;
+}
+
+.date-value::after {
+	content: "";
+	position: absolute;
+	top: 100%;
+	right: 0;
+	width: 100%;
+	min-width: 9rem;
+	height: 0.75rem;
+}
+
+.date-control {
+	display: none;
+	position: absolute;
+	top: calc(100% + 0.5rem);
+	right: 0;
+	z-index: 10;
+	min-width: 9rem;
+	padding: 0.375rem;
+	border: 1px solid #dee2e6;
+	border-radius: 0.5rem;
+	background: #fff;
+	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+	color: #495057;
+	font: inherit;
+	text-align: left;
+}
+
+.date-value:hover .date-control,
+.date-value:focus-within .date-control {
+	display: block;
+}
+
 #res {
 	margin-top: 2rem;
 	font-size: 2rem;
@@ -75,9 +112,9 @@ h1 {
 
 .badge {
 	display: inline-block;
-	padding: 0.25rem 0.5rem;
+	padding: 0.5rem 1rem;
 	border-radius: 0.25rem;
-	font-size: 0.75rem;
+	font-size: 1.3rem;
 	font-weight: 600;
 	text-transform: uppercase;
 	margin-left: 0.5rem;
@@ -86,8 +123,6 @@ h1 {
 .badge-odd {
 	background: #e7f1ff;
 	color: #0d6efd;
-	font-size: 1.3rem;
-	padding: 0.5rem 1rem;
 }
 
 .badge-even {

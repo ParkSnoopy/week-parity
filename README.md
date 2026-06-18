@@ -6,11 +6,11 @@ Rust-powered WASM app to calculate odd/even week parity based on a custom semest
 - Full Client-Side Rendering (CSR).
 - Timezone-aware "Today" calculation.
 - Noto Serif design.
-- Configurable via `static/js/config.js`.
+- Configurable via `config.toml`.
 
 ## Structure
 - `pkg/`: WASM build artifacts.
-- `static/`: CSS and JS configuration.
+- `static/`: CSS and JS.
 - `src/`: Rust source code.
 - `index.html`: Main entry point.
 

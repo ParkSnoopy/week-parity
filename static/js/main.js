@@ -1,6 +1,41 @@
 import init, { get_week_status_wasm } from '../../pkg/week_parity_wasm.js';
 import { CONFIG } from './config.js';
 
+const themeMedia = window.matchMedia('(prefers-color-scheme: dark)');
+
+function systemTheme() {
+    return themeMedia.matches ? 'dark' : 'light';
+}
+
+function applyTheme(theme) {
+    document.documentElement.dataset.theme = theme;
+
+    const toggle = document.getElementById('theme-toggle');
+    if (!toggle) return;
+
+    const nextTheme = theme === 'dark' ? 'light' : 'dark';
+    toggle.innerText = theme === 'dark' ? 'Dark' : 'Light';
+    toggle.setAttribute('aria-pressed', String(theme === 'dark'));
+    toggle.setAttribute('aria-label', `Switch to ${nextTheme} theme`);
+}
+
+function initThemeToggle() {
+    let selectedTheme = systemTheme();
+    const toggle = document.getElementById('theme-toggle');
+
+    applyTheme(selectedTheme);
+
+    themeMedia.addEventListener('change', () => {
+        selectedTheme = systemTheme();
+        applyTheme(selectedTheme);
+    });
+
+    toggle.addEventListener('click', () => {
+        selectedTheme = selectedTheme === 'dark' ? 'light' : 'dark';
+        applyTheme(selectedTheme);
+    });
+}
+
 function parseConfigToml(toml) {
     const baseDateMatch = toml.match(/^base_date\s*=\s*\[([\s\S]*?)\]/m);
     const timezoneMatch = toml.match(/^timezone\s*=\s*"([^"]+)"/m);
@@ -61,6 +96,11 @@ function renderDateValue(element, date, control) {
 function renderStatus(baseDate, today) {
     const status = get_week_status_wasm(baseDate, today);
     const [week, parityEng] = status.split(': ');
+    if (!parityEng) {
+        document.getElementById('res').innerText = status;
+        return;
+    }
+
     const parityMap = { odd: '单周', even: '双周' };
     const parity = parityMap[parityEng.toLowerCase()] || parityEng;
     const parityBadge = `<span class="badge badge-${parityEng.toLowerCase()}">${parity}</span>`;
@@ -70,6 +110,8 @@ function renderStatus(baseDate, today) {
 
 async function run() {
     await init();
+
+    initThemeToggle();
 
     const { baseDates, timezone } = await loadConfig();
 

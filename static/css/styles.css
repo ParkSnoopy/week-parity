@@ -1,22 +1,57 @@
-body {
-	font-family: "Noto Serif", Georgia, "Times New Roman", Times, serif;
+:root {
+	color-scheme: light;
+	--canvas: #fafafa;
+	--elevated: #ffffff;
+	--ink: #171717;
+	--body: #4d4d4d;
+	--mute: #8f8f8f;
+	--hairline: #ebebeb;
+	--link: #0070f3;
+	--link-soft: #d3e5ff;
+	--pink: #ff0080;
+	--pink-soft: #ffe5f2;
+	--shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	--shadow-floating: 0 2px 2px rgba(0, 0, 0, 0.04), 0 8px 16px -4px rgba(0, 0, 0, 0.08);
+}
 
-	color: #212529;
+:root[data-theme="dark"] {
+	color-scheme: dark;
+	--canvas: #000000;
+	--elevated: #0a0a0a;
+	--ink: #ededed;
+	--body: #a1a1a1;
+	--mute: #8f8f8f;
+	--hairline: #2e2e2e;
+	--link: #3291ff;
+	--link-soft: #15395b;
+	--pink: #ff4da6;
+	--pink-soft: #4a1730;
+	--shadow: none;
+	--shadow-floating: 0 2px 2px rgba(0, 0, 0, 0.32), 0 8px 16px -4px rgba(0, 0, 0, 0.48);
+}
+
+body {
+	position: relative;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	min-height: 100vh;
 	margin: 0;
+	background: var(--canvas);
+	color: var(--ink);
+	font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 .card {
-	background: white;
+	position: relative;
+	width: min(100%, 480px);
+	max-width: 480px;
 	padding: 2rem;
-	border-radius: 1rem;
-	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-	text-align: center;
-	width: min(100%, 440px);
-	max-width: 440px;
+	border: 1px solid var(--hairline);
+	border-radius: 12px;
+	background: var(--elevated);
+	box-shadow: var(--shadow);
+	text-align: left;
 }
 
 @media (max-width: 640px) {
@@ -27,28 +62,71 @@ body {
 	}
 
 	h1 {
-		font-size: 1.1rem;
+		font-size: 2rem;
+		line-height: 2.25rem;
 		margin-bottom: 1.5rem;
 	}
 
 	#res {
 		font-size: 1.75rem;
 	}
+
+	.badge {
+		right: 1.5rem;
+		bottom: 1.5rem;
+	}
 }
 
 h1 {
-	font-size: 1.25rem;
+	margin: 0 0 2rem;
+	color: var(--ink);
+	font-size: 3rem;
 	font-weight: 600;
-	margin-bottom: 2rem;
-	color: #495057;
+	line-height: 3rem;
+	letter-spacing: -2.4px;
+}
+
+h1::before {
+	content: "WEEK PARITY";
+	display: block;
+	margin-bottom: 0.75rem;
+	color: var(--mute);
+	font-family: "JetBrains Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+	font-size: 0.75rem;
+	font-weight: 600;
+	line-height: 1rem;
+	letter-spacing: 0;
+}
+
+.theme-toggle {
+	position: fixed;
+	top: 1.5rem;
+	left: 1.5rem;
+	z-index: 20;
+	padding: 0 0.75rem;
+	border: 1px solid var(--hairline);
+	border-radius: 6px;
+	background: var(--elevated);
+	color: var(--ink);
+	font: inherit;
+	font-size: 0.875rem;
+	font-weight: 500;
+	line-height: 2rem;
+	cursor: pointer;
+}
+
+.theme-toggle:focus {
+	border-color: var(--link);
+	outline: none;
 }
 
 .info-row {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 0.75rem 0;
-	border-bottom: 1px solid #eee;
+	gap: 1rem;
+	padding: 1rem 0;
+	border-bottom: 1px solid var(--hairline);
 }
 
 .info-row:last-of-type {
@@ -56,45 +134,64 @@ h1 {
 }
 
 .label {
-	color: #6c757d;
-	font-size: 0.875rem;
+	color: var(--mute);
+	font-family: "JetBrains Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+	font-size: 0.75rem;
+	font-weight: 500;
+	line-height: 1rem;
+	text-transform: uppercase;
 }
 
 .value {
+	color: var(--ink);
+	font-size: 0.875rem;
 	font-weight: 500;
-	color: #212529;
+	line-height: 1.25rem;
 }
 
 .date-value {
 	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: flex-end;
+	white-space: nowrap;
 	cursor: pointer;
 }
 
 .date-value::after {
 	content: "";
 	position: absolute;
-	top: 100%;
-	right: 0;
-	width: 100%;
-	min-width: 9rem;
-	height: 0.75rem;
+	top: 0;
+	left: 100%;
+	width: 0.75rem;
+	height: 100%;
+}
+
+.date-current {
+	display: inline-block;
 }
 
 .date-control {
 	display: none;
 	position: absolute;
-	top: calc(100% + 0.5rem);
-	right: 0;
+	top: 50%;
+	left: calc(100% + 0.5rem);
 	z-index: 10;
 	min-width: 9rem;
-	padding: 0.375rem;
-	border: 1px solid #dee2e6;
-	border-radius: 0.5rem;
-	background: #fff;
-	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-	color: #495057;
+	transform: translateY(-50%);
+	padding: 0.5rem 0.75rem;
+	border: 1px solid var(--hairline);
+	border-radius: 6px;
+	background: var(--elevated);
+	box-shadow: var(--shadow-floating);
+	color: var(--ink);
 	font: inherit;
 	text-align: left;
+}
+
+.date-control:focus {
+	border-color: var(--link);
+	outline: none;
 }
 
 .date-value:hover .date-control,
@@ -104,28 +201,36 @@ h1 {
 
 #res {
 	margin-top: 2rem;
+	padding-right: 5rem;
+	color: var(--ink);
 	font-size: 2rem;
-	font-weight: 800;
-	color: #007bff;
-	letter-spacing: -0.025em;
+	font-weight: 600;
+	line-height: 2.5rem;
+	letter-spacing: -1.28px;
 }
 
 .badge {
+	position: absolute;
+	right: 2rem;
+	bottom: 2rem;
 	display: inline-block;
-	padding: 0.5rem 1rem;
-	border-radius: 0.25rem;
-	font-size: 1.3rem;
-	font-weight: 600;
+	padding: 0.375rem 0.75rem;
+	border: 1px solid transparent;
+	border-radius: 6px;
+	font-size: 1rem;
+	font-weight: 500;
+	line-height: 1.25rem;
 	text-transform: uppercase;
-	margin-left: 0.5rem;
 }
 
 .badge-odd {
-	background: #e7f1ff;
-	color: #0d6efd;
+	border-color: var(--link-soft);
+	background: var(--elevated);
+	color: var(--link);
 }
 
 .badge-even {
-	background: #fef2f2;
-	color: #dc3545;
+	border-color: var(--pink-soft);
+	background: var(--elevated);
+	color: var(--pink);
 }
